@@ -1,90 +1,122 @@
-import { useState } from "react";
+import React, { useState, useCallback } from "react";
+import Builder from "./components/Builder";
+import Preview from "./components/Preview";
+import "./App.css";
+
+const DEFAULT_INPUTS = [
+  { id: "firstName", label: "First Name", value: "" },
+  { id: "age", label: "Age", value: "" },
+];
+
+const DEFAULT_TEXT_COMPONENTS = [
+  {
+    id: "greeting",
+    label: "Greeting",
+    segments: [
+      { type: "text", value: "Hello, " },
+      { type: "reference", inputId: "firstName", transform: "none" },
+      { type: "text", value: "!" },
+    ],
+    condition: null,
+  },
+  {
+    id: "ageMessage",
+    label: "Age Message",
+    segments: [
+      { type: "text", value: "You are " },
+      { type: "reference", inputId: "age", transform: "none" },
+      { type: "text", value: " years old." },
+    ],
+    condition: { inputId: "age", operator: "is not empty" },
+  },
+  {
+    id: "fullIntro",
+    label: "Full Intro",
+    segments: [
+      { type: "text", value: "Meet " },
+      { type: "reference", inputId: "firstName", transform: "uppercase" },
+      { type: "text", value: ", age " },
+      { type: "reference", inputId: "age", transform: "none" },
+    ],
+    condition: null,
+  },
+];
 
 export default function App() {
-  const [headerText, setHeaderText] = useState(
-    "Here comes text with variables",
-  );
+  const [mode, setMode] = useState("build");
+  const [inputs, setInputs] = useState(DEFAULT_INPUTS);
+  const [textComponents, setTextComponents] = useState(DEFAULT_TEXT_COMPONENTS);
+  const [selectedId, setSelectedId] = useState(null);
+
+  const updateInput = useCallback((id, value) => {
+    setInputs((prev) => prev.map((inp) => (inp.id === id ? { ...inp, value } : inp)));
+  }, []);
+
+  const updateTextComponent = useCallback((id, updates) => {
+    setTextComponents((prev) =>
+      prev.map((tc) => (tc.id === id ? { ...tc, ...updates } : tc)),
+    );
+  }, []);
+
+  const addTextComponent = useCallback(() => {
+    const newId = `text_${Date.now()}`;
+    setTextComponents((prev) => [
+      ...prev,
+      {
+        id: newId,
+        label: "New Text",
+        segments: [{ type: "text", value: "Click to configure..." }],
+        condition: null,
+      },
+    ]);
+    setSelectedId(newId);
+  }, []);
+
+  const deleteTextComponent = useCallback((id) => {
+    setTextComponents((prev) => prev.filter((tc) => tc.id !== id));
+    setSelectedId(null);
+  }, []);
+
+  const selectedComponent = textComponents.find((tc) => tc.id === selectedId);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100vh",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
-        <main
-          style={{
-            flex: 1,
-            padding: 32,
-            display: "flex",
-            flexDirection: "column",
-            gap: 16,
-          }}
-        >
-          <h1>{headerText}</h1>
-          <label style={labelStyle}>
-            Name
-            <input style={inputStyle} type="text" placeholder="Enter name" />
-          </label>
-          <label style={labelStyle}>
-            Age
-            <input
-              style={inputStyle}
-              type="number"
-              placeholder="Enter age"
-              min={0}
-            />
-          </label>
-        </main>
-
-        <aside
-          style={{
-            width: 400,
-            borderLeft: "1px solid #e0e0e0",
-            background: "#f9f9f9",
-            padding: 24,
-            display: "flex",
-            flexDirection: "column",
-            gap: 12,
-          }}
-        >
-          <h2
-            style={{
-              fontSize: "0.8rem",
-              textTransform: "uppercase",
-              letterSpacing: "0.05em",
-              color: "#888",
-            }}
+    <div className="app-container">
+      <header className="app-header">
+        <div className="app-logo">Proto</div>
+        <div className="mode-toggle">
+          <button
+            className={`mode-btn ${mode === "build" ? "mode-btn--active" : ""}`}
+            onClick={() => setMode("build")}
           >
-            Text
-          </h2>
-          <textarea
-            style={inputStyle}
-            type="text"
-            value={headerText}
-            onChange={(e) => setHeaderText(e.target.value)}
-            placeholder="Header text"
-          />
-        </aside>
-      </div>
+            Build
+          </button>
+          <button
+            className={`mode-btn ${mode === "preview" ? "mode-btn--active" : ""}`}
+            onClick={() => setMode("preview")}
+          >
+            Preview
+          </button>
+        </div>
+      </header>
+
+      {mode === "build" ? (
+        <Builder
+          inputs={inputs}
+          textComponents={textComponents}
+          selectedId={selectedId}
+          selectedComponent={selectedComponent}
+          onSelectComponent={setSelectedId}
+          onUpdateTextComponent={updateTextComponent}
+          onAddTextComponent={addTextComponent}
+          onDeleteTextComponent={deleteTextComponent}
+        />
+      ) : (
+        <Preview
+          inputs={inputs}
+          textComponents={textComponents}
+          onUpdateInput={updateInput}
+        />
+      )}
     </div>
   );
 }
-
-const labelStyle = {
-  display: "flex",
-  flexDirection: "column",
-  gap: 6,
-  fontSize: "0.9rem",
-  color: "#444",
-  maxWidth: 300,
-};
-const inputStyle = {
-  padding: "8px 12px",
-  border: "1px solid #ccc",
-  borderRadius: 6,
-  fontSize: "1rem",
-};

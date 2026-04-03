@@ -78,3 +78,41 @@ Max reachable score 10/10 points
 Besides the above points your app will be compared against other developer submissions.
 
 Goodluck!
+
+---
+
+## Prototype write-up
+
+### Approach
+
+I built a plain-language **Dynamic Text Builder** where users never write expressions or code-like syntax.
+
+Instead of typing bindings, users compose output text by combining:
+
+- **Static text segments** (free text)
+- **Dynamic value chips** (First Name, Age)
+- **Transform options** (As typed, UPPERCASE, lowercase, Title Case)
+- **Conditional visibility** (is not empty, is empty, equals, does not equal, contains)
+
+### How a non-technical user uses it
+
+1. In **Build** mode, click a text component (or add a new one).
+2. Give it a label and build content by adding text and inserting input values.
+3. Set formatting on value chips (for example, uppercase).
+4. Optionally enable conditional visibility and choose operator/value rules.
+5. Switch to **Preview** mode and type values in **First Name** and **Age** to see live output.
+
+### Why this is better than traditional `{{ }}` style
+
+- **No syntax learning curve**: users never type technical expressions.
+- **Guided decisions**: each action is done with buttons, chips, dropdowns, and toggles.
+- **Lower error rate**: constrained controls reduce expression mistakes.
+- **Clear mental model**: users think in terms of “add text → insert value → format → optional rule”.
+
+### Requirements coverage
+
+- Dynamic data display: text updates live from First Name and Age inputs.
+- Additional action 1: Combining values by composing multiple segments in one text component.
+- Additional action 2: Transformations via chip formatting (uppercase/lowercase/title case).
+- Additional action 3: Conditional visibility with multiple operators.
+- No `{{ }}` or code-like UX.

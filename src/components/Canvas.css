@@ -1,0 +1,102 @@
+.canvas-container {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.canvas-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.canvas-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 4px;
+}
+
+.input-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input-label {
+  font-size: 12px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.input-field {
+  padding: 8px 12px;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #475569;
+  font-size: 13px;
+}
+
+.input-field::placeholder {
+  color: #94a3b8;
+}
+
+.text-card {
+  padding: 14px 16px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.text-card--selected {
+  background: #eff6ff;
+  border-color: #2563eb;
+}
+
+.text-card:hover {
+  border-color: #cbd5e1;
+}
+
+.text-card--selected:hover {
+  border-color: #2563eb;
+}
+
+.text-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.text-card-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.condition-tag {
+  font-size: 10px;
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.text-card-content {
+  font-size: 14px;
+  color: #334155;
+  line-height: 1.8;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+}

@@ -1,0 +1,51 @@
+.app-container {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	background: #f8fafc;
+}
+
+.app-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 24px;
+	background: #ffffff;
+	border-bottom: 1px solid #e5e7eb;
+}
+
+.app-logo {
+	font-size: 18px;
+	font-weight: 700;
+	color: #2563eb;
+	letter-spacing: -0.5px;
+}
+
+.mode-toggle {
+	display: flex;
+	gap: 4px;
+	background: #f1f5f9;
+	border-radius: 8px;
+	padding: 3px;
+}
+
+.mode-btn {
+	padding: 6px 16px;
+	border: none;
+	border-radius: 6px;
+	font-size: 13px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.15s;
+	background: transparent;
+	color: #64748b;
+}
+
+.mode-btn--active {
+	background: #2563eb;
+	color: #fff;
+}
+
+.mode-btn:hover {
+	color: #111827;
+}
